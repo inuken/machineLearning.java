@@ -1,9 +1,10 @@
-package matrixFactorization;
+package mf;
 
 import java.text.DecimalFormat;
+
 import Jama.Matrix;
 
-public class MatrixFactorization {
+public class NonNegativeMatrixFactorization {
 	//イテレーション
 	private static int iteration = 1000;
 	//特徴量数
@@ -17,7 +18,7 @@ public class MatrixFactorization {
 				{ 2, 0, 4, 3, 6, 6, 0 } };
 
 		Matrix matrix = new Matrix(m);
-		Matrix[] rowcolBox = new  MatrixFactorization().factorize(matrix);
+		Matrix[] rowcolBox = new  NonNegativeMatrixFactorization().factorize(matrix);
 
 		Matrix rowMatrix = rowcolBox[0];
 		Matrix colMatrix = rowcolBox[1];

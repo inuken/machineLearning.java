@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
 
-public class MatrixFactorization_SGD {
+public class MatrixFactorization {
 
 	// 列行列
 	private double[][] U;
@@ -24,7 +24,7 @@ public class MatrixFactorization_SGD {
 	// 正則化項
 	final double lambda = 1.0e-5;
 
-	private MatrixFactorization_SGD(Map<Integer, Map<Integer, Double>> map,
+	private MatrixFactorization(Map<Integer, Map<Integer, Double>> map,
 			int nu, int nv, int component) {
 		this.mapMatrix = map;
 		this.nu = nu;
@@ -100,7 +100,7 @@ public class MatrixFactorization_SGD {
 			map.put(i, innerMap);
 		}
 
-		MatrixFactorization_SGD mf_sgd = new MatrixFactorization_SGD(map, 5, 7, 4);
-		mf_sgd.iterator(10000);
+		MatrixFactorization mf = new MatrixFactorization(map, 5, 7, 4);
+		mf.iterator(10000);
 	}
 }
