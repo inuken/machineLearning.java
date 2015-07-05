@@ -1,75 +1,41 @@
 package perceptron;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 public class Perceptron {
-
-	private int N = 100;
-
-	private double[] X = new double[N];
-
-	private double[] Y = new double[N];
-
-	private int[] T = new int[N];
-
-	// 分離平面を 5x + 3y = 1に設定
-	private double h(double x, double y) {
-		return 5 * x + 3 * y - 1;
-	}
-
-	private void dataOccurence() {
-		Random ran = new Random();
-		for (int i = 0; i < N; i++) {
-			X[i] = ran.nextGaussian();
-			Y[i] = ran.nextGaussian();
-			T[i] = h(X[i], Y[i]) > 0 ? 1 : -1;
-		}
-	}
-
-	private double[] learning() {
+	public double[] learning(double[] X, double[] Y, double[] T) {
 		double[] w = new double[3];
+		Arrays.fill(w, 0.0);
+
+		int misses;
 		List<Integer> list;
-		int misses,predict;
-		double x,y,t;
+		int predict;
+
+		list = new ArrayList<Integer>();
+		for(int i = 0;i < X.length; i++) {
+			list.add(i);
+		}
 
 		while (true) {
-			list = new ArrayList<Integer>();
-
-			for (int i = 0; i < N; i++) {
-				list.add(i);
-			}
 			Collections.shuffle(list);
 
 			misses = 0;
-			for (int i : list) {
-				x = X[i];
-				y = Y[i];
-				t = T[i];
 
-				predict = w[0] * x + w[1] * y + w[2] > 0 ? 1 : -1;
+			for(int i : list) {
+				predict = w[0] * X[i] + w[1] * Y[i] + w[2] >= 0 ? 1 : -1;
 
-				if (predict != t) {
-					w[0] += x * t;
-					w[1] += y * t;
-					w[2] += t;
-					misses += 1;
+				if(T[i] != predict) {
+					w[0] += X[i] * T[i];
+					w[1] += Y[i] * T[i];
+					w[2] += T[i];
+					misses++;
 				}
 			}
 			if(misses == 0) break;
 		}
 		return w;
-	}
-
-	public static void main(String[] args) {
-		Perceptron p = new Perceptron();
-		p.dataOccurence();
-		double[] w = p.learning();
-
-		DecimalFormat df = new DecimalFormat("0.00");
-		System.out.println(df.format(w[0]) + " x + " + df.format(w[1]) + " y + " + df.format(w[2]));
 	}
 }
